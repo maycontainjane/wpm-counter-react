@@ -3,26 +3,34 @@ import './App.css';
 import Counters from './Counters.js';
 import TypingSpace from './TypingSpace.js';
 import Buttons from './Buttons.js';
+import textSnippets from './text_snippets.json';
 
 function App() {
+  const initialMessage = "Type as many words as you can with 100% accuracy for 2 minutes. Errors will reduce your WPM!";
+
   const [seconds, setTime] = useState(0);
   const [wpm, setWpm] = useState(0);
   const [words, setWords] = useState(0);
   const [errors, setErrors] = useState(0);
   const [areTesting, setAreTesting] = useState(false);
   const [interval, setTimeInterval] = useState(null);
-  const [message, setMessage] = useState("Type as many words as you can with 100% accuracy for 1 minute. Errors will reduce your WPM!");
+  const [message, setMessage] = useState(initialMessage);
 
-  let testWords = "Onemorning,whenGregorSamsawokefromtroubleddreams,hefoundhimself\
-transformedinhisbedintoahorriblevermin.Helayonhisarmour-likeback,andifhe\
-liftedhisheadalittlehecouldseehisbrownbelly,slightlydomedanddividedbyarches\
-intostiffsections.Thebeddingwashardlyabletocoveritandseemedreadytoslideoff\
-anymoment.Hismanylegs,pitifullythincomparedwiththesizeoftherestofhim,waved\
-abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
+  const number = Math.floor(Math.random() * textSnippets.length);
+  const textSnippet = textSnippets[number].snippet;
+  
+  const [typingText, setTypingText] = useState(textSnippet);
+  const [internalText, setInternalText] = useState(textSnippet.split(' ').join(''));
+
+  console.log(internalText);
 
   const startTest = () => {
     if (!areTesting) {
-      setTime(1);
+      setMessage(initialMessage);
+      setWpm(0);
+      setErrors(0);
+      setWords(0);
+      setTime(0);
       setAreTesting(true);
       const interval = setInterval(() => setTime(prevTime => prevTime + 1), 1000);
       setTimeInterval(interval);
@@ -36,11 +44,17 @@ abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
     if (areTesting) {
       setAreTesting(false);
       clearInterval(interval);
-      setTime(0);
-      setWpm(0);
-      setErrors(0);
-      setWords(0);
       document.getElementById("text").setAttribute("disabled", true);
+      let messageFragment = "";
+      let diff = ((wpm - 40) / 40) * 100;
+      if (diff > 0) {
+        messageFragment = "! That's " + diff + "% higher than average!";
+      } else if (diff < 0) {
+        messageFragment = "...that's " + Math.abs(diff) + "% below average, but hey, it's just typing.";
+      } else {
+        messageFragment = ". You're right at the average!";
+      }
+      setMessage("Your WPM is " + wpm + messageFragment);
     }
   };
 
@@ -50,7 +64,7 @@ abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
     let diff = 0;
 
     words = words.split('').forEach(function(val, i) {
-      if (val != testWords.charAt(i)) diff += 1;
+      if (val != internalText.charAt(i)) diff += 1;
     });
     setErrors(diff);
   };
@@ -60,7 +74,7 @@ abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
     // compare to text
     // get number of errors
     var allWords = elem.target.value;
-    var numWords = allWords.split(" ").length;
+    var numWords = allWords.split('').length;
     setWords(numWords);
     allWords = allWords.replace(/\s+/g, '');
     getErrors(allWords);
@@ -71,7 +85,7 @@ abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
     let wordsPerMinute = 0;
     if (words > 0) {
       if (words > 0 && seconds > 0) {
-        wordsPerMinute = Math.round((words - (errors / 10)) / (seconds / 60));
+        wordsPerMinute = Math.round((words/5) - errors / (seconds/60));
         if (wordsPerMinute < 0) wordsPerMinute = 0;
       }
     }
@@ -80,6 +94,9 @@ abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
 
   useEffect(() => {
     if (areTesting) {
+      if (seconds == 120) {
+        stopTest();
+      }
       calculateWpm(seconds, words, errors);
     }
   });
@@ -91,7 +108,7 @@ abouthelplesslyashelooked.\"What'shappenedtome?\"hethought.Itwasn'tadream."
         <div><p>{message}</p></div>
         <Counters time={seconds} wpm={wpm} errors={errors}/>
         <Buttons startTest={startTest} stopTest={stopTest} />
-        <TypingSpace getWords={getWords}/>
+        <TypingSpace getWords={getWords} typingText={typingText}/>
       </div>
     </div>
   );
