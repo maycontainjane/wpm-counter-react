@@ -1,11 +1,12 @@
-import WpmCounter from './WpmCounter.js';
-import TimeCounter from './TimeCounter.js';
+import React from 'react';
+import './App.css';
 
-function Counters() {
+function Counters(props) {
   return (
-    <div className="counters">
-      <div><TimeCounter /></div>
-      <div><WpmCounter /></div>
+    <div className="Counters__container">
+      <div className="Counters__timeCounter">Time: {props.time}</div>
+      <div className="Counters__wpmCounter">WPM: {props.wpm}</div>
+      <div className="Counters__errorCounter">Errors: {props.errors}</div>
     </div>
   );
 }

@@ -1,16 +1,17 @@
-import StartButton from './StartButton.js';
-import StopButton from './StopButton.js';
-import RestartButton from './RestartButton.js';
+import React from 'react';
+import './App.css';
 
-function Buttons() {
-    return (
-      <div className="buttons">
-          <StartButton />
-          <StopButton />
-          <RestartButton />
+function Buttons(props) {
+    return (  
+      <div className="Buttons__container">    
+        <div className="Buttons__startButton">
+            <button className="Buttons__button" onClick={props.startTest}>Start</button>
+        </div>
+        <div className="Buttons__stopButton">
+          <button className="Buttons__button" onClick={props.stopTest}>Stop</button>
+        </div>
       </div>
     );
 }
-
-export default Buttons;
   
+export default Buttons;

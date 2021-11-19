@@ -2,19 +2,8 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.App__body {
+  background-color: #5b4d90;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,33 +13,44 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-.counters {
+.Counters__container {
   display: flex;
   justify-content: space-around;
 }
 
-.counters > div {
+.Counters__container > div {
   padding: 10px;
 }
 
-.buttons {
+.Buttons__container {
   display: flex;
   justify-content: space-around;
 }
 
-.buttons > div {
+.Buttons__container > div {
   padding: 10px;
 }
 
-.typing-space {
+.Buttons__button {
+  font-size: 1em;
+  padding: 0.3em;
+}
+
+.TypingSpace__container {
   display: flex;
   justify-content: space-around;
 }
 
-.typing-space > div {
-  padding: 10px;
+.TypingSpace__container > div {
+  padding: 30px;
+}
+
+.TypingSpace__text {
+  font-size: 1em;
+}
+
+.TypingSpace__textarea {
+  font-size: 1em;
+  font-family: sans-serif;
+  resize: none;
 }
