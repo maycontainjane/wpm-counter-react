@@ -7,11 +7,11 @@ Hopefully a small enough app that I can finish it up in a couple of days and ref
 ## Things Have Changed
 
 Some of the things I want to learn and practice are:
-    - using function definitions instead of class defitions for components
-    - hooks! What are those? Let's use them!
-    - reminder of how data is passed between layers of React
-    - new things like classnames
-    - if possible, expansion could include another simple app and react-router to move between them
+- using function definitions instead of class defitions for components
+- hooks! What are those? Let's use them!
+- reminder of how data is passed between layers of React
+- new things like classnames
+- if possible, expansion could include another simple app and react-router to move between them
 
 ## Thanks Create-React-App!
 
